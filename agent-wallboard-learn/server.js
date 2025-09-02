@@ -113,7 +113,9 @@ app.post('/api/agents/:code/login', (req, res) => {
 
     // 3. บันทึก loginTime
     agent.loginTime = new Date();  
-    // 4. ส่ง response
+    // 4. ลบ logoutTime 
+    delete agent.logoutTime;
+    // 5. ส่ง response
     res.json(agent);
 });
 
@@ -132,7 +134,7 @@ app.post('/api/agents/:code/logout', (req, res) => {
     agent.logoutTime = new Date();  
     // 4. ลบ loginTime 
     delete agent.loginTime;
-    // 4. ส่ง response
+    // 5. ส่ง response
     res.json(agent);
 
 })
