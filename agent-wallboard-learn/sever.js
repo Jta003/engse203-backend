@@ -16,13 +16,19 @@ let agents = [
    },
    {
     code: "A002",        // รหัส Agent
-    name: "Alex",
+    name: "Supachok",
     status: "Wrap up",   // ต้องให้ตรงกับ validStatuses
     loginTime: new Date()
    },
-   {
+      {
     code: "A003",        // รหัส Agent
-    name: "Jeny",
+    name: "Jta",
+    status: "Active",
+    loginTime: new Date()
+   },
+   {
+    code: "A004",        // รหัส Agent
+    name: "JJ",
     status: "Active",
     loginTime: new Date()
    },
