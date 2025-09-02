@@ -1,7 +1,9 @@
 const express = require('express');
 const app = express();
 const PORT = 3001;
+const cors = require('cors');
 
+app.use(cors());
 // =============================
 // Mock Data: agent list
 // =============================
@@ -85,6 +87,49 @@ app.patch('/api/agents/:code/status', (req, res) => {
         data: agent
     });
 });
+app.post('/api/agents/:code/login', (req, res) => {
+    const agentCode = req.params.code;
+    const { name } = req.body;
+    
+    // ให้นักศึกษาเขียนเอง:
+    // 1. หา agent หรือสร้างใหม่
+    const agent = agents.find(a => a.code === agentCode);
+    console.log('found agent:', agent);
+        // ถ้าไม่เจอ → สร้างใหม่
+    if (!agent) {
+        agent = { code: agentCode };
+        agents.push(agent);
+    }
+    // 2. เซ็ต status เป็น "Available"  
+    agent.name = name;                     // เก็บชื่อ agent
+    agent.status = "Available";            // เปลี่ยนสถานะเป็น Available
+    agent.loginTime = new Date();          // เก็บเวลา login
+
+    // 3. บันทึก loginTime
+    agent.loginTime = new Date();  
+    // 4. ส่ง response
+    res.json(agent);
+});
+
+app.post('/api/agents/:code/logout', (req, res) => {
+    const agentCode = req.params.code;
+    const { name } = req.body;
+    // 1. หา agent 
+    const agent = agents.find(a => a.code === agentCode);
+    console.log('found agent:', agent);
+
+    // 2.  เซ็ต status เป็น "Offline
+    agent.name = name;
+    agent.status = "Offline";
+    agent.logoutTime = new Date();
+    // 3. บันทึก logoutTime
+    agent.logoutTime = new Date();  
+    // 4. ลบ loginTime 
+    delete agent.loginTime;
+    // 4. ส่ง response
+    res.json(agent);
+
+})
 
 app.get('/api/dashboard/stats', (req, res) => {
     // ขั้นที่ 1: นับจำนวนรวม
